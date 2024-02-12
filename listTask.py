@@ -34,8 +34,39 @@ def sum_first_middle_and_last_element(my_list):
     middle_sum = 0
     middle_index = len(my_list) // 2
     if len(my_list) % 2 == 0:
-       for number in my_list[(middle_index-1): (middle_index+1)]:
-           middle_sum += number
-       middle_number = middle_sum / 2
+        for number in my_list[(middle_index - 1): (middle_index + 1)]:
+            middle_sum += number
+        middle_number = middle_sum / 2
     total = my_list[0] + my_list[-1] + middle_number
     return total
+
+
+def sum_collection(my_set):
+    sum_element = 0
+    for element in my_set:
+        sum_element += element
+    return sum_element
+
+
+def remove_item(my_sample_set, my_sample_number):
+    if my_sample_number in my_sample_set:
+        my_sample_set.remove(my_sample_number)
+        return my_sample_number
+    else:
+        return None
+
+
+def find_intersection(my_first_set, my_second_set):
+    intersection_set = set()
+    for element in my_first_set:
+        if element in my_second_set:
+            intersection_set.add(element)
+    return intersection_set
+
+    for numbers in range[1:11]:
+        user_input = input(int("Enter a number: "))
+        new_set = set()
+        new_set.add(user_input)
+        print(new_set)
+
+

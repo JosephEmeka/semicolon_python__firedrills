@@ -6,6 +6,7 @@ from listTask import *
 
 
 
+
 class TestlistTask(unittest.TestCase):
     def test_function_create_list_from_numbers_ranging_from_One_to_fifteen_function(self):
         my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -30,3 +31,17 @@ class TestlistTask(unittest.TestCase):
         my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         self.assertEqual(16.5, sum_first_middle_and_last_element(my_list))
 
+    def test_function_that_takes_a_set_and_returns_element_sum(self):
+        my_set = {1, 2, 3, 4, 5, 6}
+        self.assertEqual(21, sum_collection(my_set))
+
+    def test_function_that_takes_a_set_and_removes_element_set(self):
+        my_set = {1, 2, 3, 4, 5, 6}
+        number = 3
+        self.assertEqual(3, remove_item(my_set, number))
+
+    def test_function_that_takes_two_sets_and_returns_new_set_intersection(self):
+        my_first_set = {1, 2, 3, 4, 5, 6}
+        my_second_set = {3, 5, 7, 8, 9}
+        expected_intersection = {3, 5}
+        self.assertEqual(expected_intersection, find_intersection(my_first_set, my_second_set))
