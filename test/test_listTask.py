@@ -4,9 +4,6 @@ import listTask
 from listTask import *
 
 
-
-
-
 class TestlistTask(unittest.TestCase):
     def test_function_create_list_from_numbers_ranging_from_One_to_fifteen_function(self):
         my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -45,3 +42,13 @@ class TestlistTask(unittest.TestCase):
         my_second_set = {3, 5, 7, 8, 9}
         expected_intersection = {3, 5}
         self.assertEqual(expected_intersection, find_intersection(my_first_set, my_second_set))
+
+    def test_function_to_replace_first_two_string_elements(self):
+        my_string = "abc"
+        my_sec_string = "xyz"
+        more_string = "abcde"
+        much_more_string = "vwxyz"
+        result = "xyc abz"
+        more_result = "vwcde abxyz"
+        self.assertEqual(result, find_intersection_set(my_string, my_sec_string))
+        self.assertEqual(more_result, find_intersection_set(more_string, much_more_string))

@@ -70,3 +70,6 @@ def find_intersection(my_first_set, my_second_set):
         print(new_set)
 
 
+def find_intersection_set(my_first_string, my_second_string):
+    new_string = my_second_string[0:2] + my_first_string[2:] + " " + my_first_string[0:2] + my_second_string[2:]
+    return new_string
