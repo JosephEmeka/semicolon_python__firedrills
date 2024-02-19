@@ -27,4 +27,4 @@ class Gun:
             print(f" {self.name} fired.")
             self.__bullet -= 1
         else:
-            print("Click! Out of bullets.")
+            print("Out of bullets.")
