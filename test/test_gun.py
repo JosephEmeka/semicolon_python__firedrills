@@ -1,6 +1,6 @@
 import unittest
 
-from Gun import *
+from gun import *
 
 
 class TestGun(unittest.TestCase):

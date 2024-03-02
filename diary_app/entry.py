@@ -7,3 +7,5 @@ class entry:
     def getId(self):
         return self.entry_id
 
+
+
