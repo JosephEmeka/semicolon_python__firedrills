@@ -8,7 +8,7 @@ class bank_app:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("WELCOME TO SEMICOLON BANK WHERE WIMPS LIKE YOU PAY THEIR LOAN ")
+        self.root.title("WELCOME TO SEMICOLON WIMPS BANK")
 
         menu_bar = tk.Menu(root)
         menu = tk.Menu(menu_bar)
@@ -39,61 +39,81 @@ class bank_app:
     def deposit(self):
         account_number = simpledialog.askinteger("Deposit", "Enter Account Number:")
         amount = simpledialog.askinteger("Deposit", "Enter Amount:")
-        if account_number and amount:
-            self.access_bank.deposit(account_number, amount)
-            messagebox.showinfo("Deposit", f"You Deposited #{amount} successfully in {account_number}")
-        else:
-            messagebox.showerror("Deposit", "Account number and Amount required.")
+        try:
+            if account_number and amount:
+                self.access_bank.deposit(account_number, amount)
+                messagebox.showinfo("Deposit", f"You Deposited #{amount} successfully in {account_number}")
+
+            else:
+                messagebox.showerror("Deposit", "Account number and Amount required.")
+        except ValueError as e:
+            messagebox.showerror("Deposit", "Account Number not found")
 
     def withdraw(self):
         account_number = simpledialog.askinteger("Withdraw", "Enter Account Number:")
         amount = simpledialog.askinteger("Withdraw", "Enter Amount:")
         pin = simpledialog.askstring("Withdraw", "Enter Pin")
-        if account_number and amount and pin:
-            self.access_bank.withdraw(account_number, amount, pin)
-            messagebox.showinfo("Withdraw",
-                f"You withdrew #{amount} successfully from your account with account number {account_number}")
-        else:
-            messagebox.showerror("Withdraw", "Account number and Amount are required.")
+        try:
+            if account_number and amount and pin:
+                self.access_bank.withdraw(account_number, amount, pin)
+                messagebox.showinfo("Withdraw",
+                    f"You withdrew #{amount} successfully from your account with account number {account_number}")
+            else:
+                messagebox.showerror("Withdraw", "Account number and Amount are required.")
+        except ValueError as e:
+            messagebox.showerror("Withdraw", "Account number not found")
 
     def transfer(self):
         source_account_number = simpledialog.askinteger("Transfer", "Enter Source Account Number:")
         destination_account_number = simpledialog.askinteger("Transfer", "Enter Destination Account Number:")
         amount = simpledialog.askinteger("Transfer", "Enter Amount:")
         pin = simpledialog.askstring("Transfer", "Enter Pin")
-        if source_account_number and destination_account_number and amount and pin:
-            self.access_bank.transfer(source_account_number, destination_account_number, amount, pin)
-            messagebox.showinfo("Transfer", "Transfer Successful")
-        else:
-            messagebox.showerror("Transfer", "Source Account, Destination Account, Amount and Pin are required.")
+        try:
+            if source_account_number and destination_account_number and amount and pin:
+                self.access_bank.transfer(source_account_number, destination_account_number, amount, pin)
+                messagebox.showinfo("Transfer", "Transfer Successful")
+            else:
+                messagebox.showerror("Transfer", "Source Account, Destination Account, Amount and Pin are required.")
+        except ValueError as e:
+            messagebox.showerror("Transfer", "Account number not found")
 
     def check_balance(self):
         account_number = simpledialog.askinteger("Check Balance", "Enter Account Number:")
         pin = simpledialog.askstring("Check Balance", "Enter Pin")
-        if account_number and pin:
-            balance = self.access_bank.check_balance(account_number, pin)
-            messagebox.showinfo("Check Balance", f"Account Balance for {account_number} is #{balance}")
-        else:
-            messagebox.showerror("Check Balance", "first name and last name are required.")
+        try:
+            if account_number and pin:
+                balance = self.access_bank.check_balance(account_number, pin)
+                messagebox.showinfo("Check Balance", f"Account Balance for {account_number} is #{balance}")
+            else:
+                messagebox.showerror("Check Balance", "first name and last name are required.")
+        except ValueError as e:
+            messagebox.showerror("Check balance", "Account number not found")
 
     def remove_account(self):
         account_number = simpledialog.askinteger("Remove Account", "Enter Account Number:")
-        if account_number:
-            self.access_bank.remove_account(account_number)
-            messagebox.showinfo("Remove Account", f"Account {account_number} successfully removed")
-        else:
-            messagebox.showerror("Remove Account", "Account Number required.")
+        pin = simpledialog.askinteger("Remove Account", "Enter pin:")
+        try:
+            if account_number and pin:
+                self.access_bank.remove_account(account_number, pin)
+                messagebox.showinfo("Remove Account", f"Account {account_number} successfully removed")
+            else:
+                messagebox.showerror("Remove Account", "Account Number required.")
+        except ValueError as e:
+            messagebox.showerror("Remove account", "Account Number does not exist")
 
     def find_account(self):
         account_number = simpledialog.askinteger("Find Account", "Enter Account Number:")
-        if account_number:
-            account = self.access_bank.find_account(account_number)
-            if account:
-                messagebox.showinfo("Find Account", f"Account {account_number} found\n{account}")
+        try:
+            if account_number:
+                account = self.access_bank.find_account(account_number)
+                if account:
+                    messagebox.showinfo("Find Account", f"Account {account_number} found\n{account}")
+                else:
+                    messagebox.showinfo("Find Account", f"Account {account_number} not found")
             else:
-                messagebox.showinfo("Find Account", f"Account {account_number} not found")
-        else:
-            messagebox.showerror("find Account number", "Account Number required.")
+                messagebox.showerror("find Account number", "Account Number required.")
+        except ValueError as e:
+            messagebox.showerror("find account", "Account Not found")
 
 
 if __name__ == "__main__":

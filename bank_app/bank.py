@@ -1,9 +1,7 @@
 from bank_app.account import account
-
 from bank_app.InsufficientFundsException import InsufficientFundsException
 from bank_app.InvalidAmountException import InvalidAmountException
 from bank_app.InvalidPinException import InvalidPinException
-
 
 class bank:
     account_number = 1_000
@@ -18,8 +16,8 @@ class bank:
         for accountItem in self.accounts:
             if (accountItem.getFirstName().lower() == first_name.lower() and accountItem.getLastName().lower()
                     == last_name.lower()):
-                raise ValueError(f"Account {accountItem} already exists")
-            if len(pin) > 4 or len(pin) < 4:
+                raise ValueError(f"Account {accountItem.account_number} already exists")
+            if len(pin) != 4:
                 raise InvalidPinException("Invalid Pin")
         fresh_account.account_number = self.account_number
         self.accounts.append(fresh_account)
@@ -27,10 +25,10 @@ class bank:
 
     def remove_account(self, account_number, pin):
         for accountItem in self.accounts:
-            if accountItem.account_number == account_number:
+            if accountItem.account_number == account_number and accountItem.isValidPin(pin):
                 self.accounts.remove(accountItem)
                 return True
-        return False
+        raise ValueError("Account {} not found".format(account_number))
 
     def get_account_number(self, first_name, last_name):
         for accountItem in self.accounts:
@@ -43,48 +41,55 @@ class bank:
         for customer in self.accounts:
             if customer.account_number == account_number:
                 if amount <= 0:
-                    raise InvalidAmountException("you cannot deposit negative amount")
+                    raise InvalidAmountException("You cannot deposit a negative amount")
                 customer.balance += amount
-        if customer not in self.accounts:
-            raise ValueError("Account {} not found".format(account_number))
+                return
+        raise ValueError("Account {} not found".format(account_number))
 
     def check_balance(self, account_number: str, pin: str):
         for customer in self.accounts:
             if customer.account_number == account_number and customer.isValidPin(pin):
                 return customer.balance
-        return "Account {} not found".format(account_number)
+        raise ValueError("Account {} not found".format(account_number))
 
     def withdraw(self, account_number: int, amount: int, pin: str):
         for customer in self.accounts:
             if customer.account_number == account_number and customer.isValidPin(pin):
                 if amount <= 0:
-                    raise InvalidAmountException("you cannot withdraw negative amount")
+                    raise InvalidAmountException("You cannot withdraw a negative amount")
                 if customer.balance < amount:
-                    raise InsufficientFundsException("insufficient funds")
+                    raise InsufficientFundsException("Insufficient funds")
                 customer.balance -= amount
-        if customer not in self.accounts:
-            return "Account not found"
+                return
+        raise ValueError("Account {} not found".format(account_number))
 
     def transfer(self, source_account_number: int, destination_account_number: int, amount: int, pin: str):
+        source_customer = None
+        destination_customer = None
         for customer in self.accounts:
             if customer.account_number == source_account_number and customer.isValidPin(pin):
                 if amount <= 0:
-                    raise InvalidAmountException("you cannot transfer negative amount")
+                    raise InvalidAmountException("You cannot transfer a negative amount")
                 if customer.balance < amount:
-                    raise InsufficientFundsException("You have insufficient funds")
-                customer.balance -= amount
+                    raise InsufficientFundsException("You have insufficient funds for the transfer")
+                source_customer = customer
             if customer.account_number == destination_account_number:
-                customer.balance += amount
-        if customer.account_number != destination_account_number:
-            raise ValueError("Account not found")
-        if customer not in self.accounts:
-            raise ValueError("Account not found")
+                destination_customer = customer
+
+        if source_customer is None:
+            raise ValueError("Source Account not found")
+
+        if destination_customer is None:
+            raise ValueError("Destination Account not found")
+
+        source_customer.balance -= amount
+        destination_customer.balance += amount
 
     def __str__(self):
-        return (f"Account Number: {self.account_number}, Account Balance: #{self.balance}...Thank you for banking with "
-                f"us.")
+        return f"Bank: {self.name}, Number of Accounts: {len(self.accounts)}"
 
     def find_account(self, account_number: int):
         for customer in self.accounts:
             if customer.account_number == account_number:
                 return customer
+        raise ValueError("Account {} not found".format(account_number))

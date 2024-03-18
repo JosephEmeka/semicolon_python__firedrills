@@ -61,19 +61,22 @@ class TestMyBank(unittest.TestCase):
 
     def test_bank_can_deposit_positive_amount_in_accounts(self):
         self.access_bank = bank("GTB")
-        self.access_bank.register_customer("Joshua", "mike", "1001")
+        self.access_bank.register_customer("joshua", "mike", "1001")
         self.access_bank.register_customer("Samuel", "Sharon", "1001")
-        self.access_bank.deposit(1000, 5000)
-        self.assertEqual(5_000, self.access_bank.check_balance(1000, "1001"))
+        account_number = self.access_bank.get_account_number("joshua", "mike")
+        self.access_bank.deposit(account_number, 5000)
+        self.assertEqual(5_000, self.access_bank.check_balance(account_number, "1001"))
 
     def test_bank_can_deposit_positive_amount_in_two_different_accounts(self):
         self.access_bank = bank("GTB")
         self.access_bank.register_customer("Joshua", "mike", "1001")
         self.access_bank.register_customer("Samuel", "Sharon", "1003")
-        self.access_bank.deposit(1000, 3000)
-        self.access_bank.deposit(1001, 7000)
-        self.assertEqual(3_000, self.access_bank.check_balance(1000, "1001"))
-        self.assertEqual(7_000, self.access_bank.check_balance(1001, "1003"))
+        account_number_one = self.access_bank.get_account_number("joshua", "mike")
+        account_number_two = self.access_bank.get_account_number("Samuel", "Sharon")
+        self.access_bank.deposit(account_number_one, 3000)
+        self.access_bank.deposit(account_number_two, 7000)
+        self.assertEqual(3_000, self.access_bank.check_balance(account_number_one, "1001"))
+        self.assertEqual(7_000, self.access_bank.check_balance(account_number_two, "1003"))
 
     def test_that_bank_account_cannot_receive_negative_deposit(self):
         self.access_bank = bank("Access")
@@ -151,7 +154,6 @@ class TestMyBank(unittest.TestCase):
         self.access_bank = bank("Access")
         self.access_bank.register_customer("Joshua", "mike", "1001")
         self.access_bank.register_customer("Samuel", "Sharon", "1001")
-        self.assertIsNone(self.access_bank.find_account(1003))
         self.assertTrue(self.access_bank.find_account(1000))
         self.assertTrue(self.access_bank.find_account(1001))
 

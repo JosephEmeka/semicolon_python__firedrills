@@ -12,7 +12,6 @@ class account:
         self.last_name = last_name
         self.pin = pin
         self.balance = 0
-        self.account_number = None
 
     def deposit(self, amount: int):
         if amount <= Decimal(0.0):
