@@ -1,7 +1,2 @@
-def func_to_calculate(*args):
-
-    Q = ((2 * 50 * x) % 30)**0.5
-    map(lambda x: Q , args)
-
-
-print(func_to_calculate(2, 3, 4))
+firstList = [1, 2, 2, 3, 4, 2]
+secondList = [2, 3, 3, 5, 6, 7]
